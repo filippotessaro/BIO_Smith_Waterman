@@ -20,7 +20,6 @@ def printResult(align2, align1):
     '''
     c = ''
     for (a, b) in zip(align2,align1):
-         #print a, b, c
          if a==b:
              c += "|"
          else:
@@ -30,7 +29,7 @@ def printResult(align2, align1):
     print(spaceitout(align1))
 
 
-def comparison(a, b):
+def Similarity_Score(a, b):
     '''
     check whether two character if there is a gap-mismatch-match
     '''
@@ -55,7 +54,7 @@ def smithWaterman(s1, s2):
     # Score, Pointer Matrix genetation
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            sc_diag = Score_Matrix[i-1][j-1] + comparison(s1[i-1], s2[j-1])    #diagonal value
+            sc_diag = Score_Matrix[i-1][j-1] + Similarity_Score(s1[i-1], s2[j-1])    #diagonal value
             sc_up = Score_Matrix[i][j-1] + scores['gap']   #upper value
             sc_left = Score_Matrix[i-1][j] + scores['gap'] #left value
 
