@@ -1,9 +1,8 @@
 from __future__ import division, print_function
 import numpy as np
 
-
-#Dictionary for the match, mismatch and gap
-pt ={'match': 3, 'mismatch': -1, 'gap': -2}
+#Dictionary for the match, mismatch and gap scores
+scores ={'match': 3, 'mismatch': -1, 'gap': -2}
 
 def spaceitout(source):
     '''
@@ -36,11 +35,11 @@ def comparison(a, b):
     check whether two character if there is a gap-mismatch-match
     '''
     if a == b:
-        return pt['match']
+        return scores['match']
     elif a == '-' or b == '-':
-        return pt['gap']
+        return scores['gap']
     else:
-        return pt['mismatch']
+        return scores['mismatch']
 
 def smithWaterman(s1, s2):
     '''
@@ -57,8 +56,8 @@ def smithWaterman(s1, s2):
     for i in range(1, m + 1):
         for j in range(1, n + 1):
             sc_diag = Score_Matrix[i-1][j-1] + comparison(s1[i-1], s2[j-1])    #diagonal value
-            sc_up = Score_Matrix[i][j-1] + pt['gap']   #upper value
-            sc_left = Score_Matrix[i-1][j] + pt['gap'] #left value
+            sc_up = Score_Matrix[i][j-1] + scores['gap']   #upper value
+            sc_left = Score_Matrix[i-1][j] + scores['gap'] #left value
 
             #Find the maximum score beteen the three variables
             #and set it to the score MATRIX
@@ -73,8 +72,7 @@ def smithWaterman(s1, s2):
                 max_score = Score_Matrix[i][j]
 
     #Log the SCORE MATRIX
-    print("SCORE MATRIX:")
-    print('Score_Matrix=\n',Score_Matrix,'\n')
+    print('SCORE MATRIX:\n',Score_Matrix,'\n')
 
     #Initialization for the traceback
     align1, align2 = '', '' #the 2 alignemnt strings
@@ -103,7 +101,7 @@ def smithWaterman(s1, s2):
 
     print('Max Score =', max_score,'\n')
 
-    print('Results:')
+    print('Result:')
     printResult(align2,align1)
 
 
