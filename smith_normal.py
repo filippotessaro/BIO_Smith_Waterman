@@ -1,19 +1,26 @@
 from __future__ import division, print_function
 import numpy as np
 
-pt ={'match': 3, 'mismatch': -3, 'gap': -2}
+#Dictionary for the match, mismatch and gap
+pt ={'match': 3, 'mismatch': -1, 'gap': -2}
 
 def spaceitout(source):
+    '''
+    This function add a space to every character into a string
+    '''
     pile = ""
     for letter in source:
         pile = pile + letter + " "
     pile = pile[:-1] #Strip last extraneous space.
     return pile
 
-def mch(alpha, beta):
-    if alpha == beta:
+def comparison(a, b):
+    '''
+    check whether two character if there is a gap-mismatch-match
+    '''
+    if a == b:
         return pt['match']
-    elif alpha == '-' or beta == '-':
+    elif a == '-' or b == '-':
         return pt['gap']
     else:
         return pt['mismatch']
@@ -26,7 +33,7 @@ def water(s1, s2):
     # Score, Pointer Matrix
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            sc_diag = H[i-1][j-1] + mch(s1[i-1], s2[j-1])
+            sc_diag = H[i-1][j-1] + comparison(s1[i-1], s2[j-1])
             sc_up = H[i][j-1] + pt['gap']
             sc_left = H[i-1][j] + pt['gap']
             H[i][j] = max(0,sc_left, sc_up, sc_diag)
@@ -41,8 +48,8 @@ def water(s1, s2):
     print("SCORE MATRIX:")
     print('H=\n',H,'\n')
 
-    print("POINTER MATRIX:")
-    print('T=\n',T,'\n')
+    #print("POINTER MATRIX:")
+    #print('T=\n',T,'\n')
     align1, align2 = '', ''
     i,j = max_i,max_j
 
@@ -69,7 +76,7 @@ def water(s1, s2):
     align2 = align2[::-1]
     sym = ''
     #iden = 0
-    for i in range(len(align1)):
+    '''for i in range(len(align1)):
         a1 = align1[i]
         a2 = align2[i]
         if a1 == a2:
@@ -78,23 +85,30 @@ def water(s1, s2):
         elif a1 != a2 and a1 != '-' and a2 != '-':
             sym += ' '
         elif a1 == '-' or a2 == '-':
-            sym += ' '
+            sym += ' ' '''
 
     #identity = iden / len(align1) * 100
     #print('Identity = %f percent' % identity)
     print('Max Score =', max_score)
     #print(sym)
     #spaceitout(align2)
+
+    print('Results:')
     print(spaceitout(align2))
     print(spaceitout('|' * len(align1)))
     print(spaceitout(align1))
 
+
 if __name__ == '__main__':
-    #water('GGTTGACTA','TGTTACGG')
-    water('cgggtatccaa','ccctaggtccca')
+    water('GGTTGACTA','TGDTACG')
+    #water('cgggtatccaa','ccctaggtccca')
+    #water('AATCG','AAACG')
+
 
 '''
 G T T - A C
-| | |   | |
+| | | | | |
 G T T G A C
 '''
+#TODO do traceback function and create matrix
+#also create traceback from a certain score

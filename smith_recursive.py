@@ -22,22 +22,28 @@ def traceback(H, b, b_='', old_i=0):
     i, j = np.subtract(H.shape, (i_ + 1, j_ + 1))  # (i, j) are **last** indexes of H.max()
     if H[i, j] == 0:
         return b_, j
-    b_ = b[j - 1] + '-' + b_ if old_i - i > 1 else b[j - 1] + b_
+    #b_ = b[j - 1] + '-' + b_ if old_i - i > 1 else b[j - 1] + b_
+    if old_i - i > 1:
+        b_ = b[j - 1] + '-' + b_
+    else:
+        b_ = b[j - 1] + b_
     return traceback(H[0:i, 0:j], b, b_, i)
 
 def smith_waterman(a, b, match_score=3, gap_cost=2):
     a, b = a.upper(), b.upper()
     H = build_score_matrix(a, b, match_score, gap_cost)
     b_, pos = traceback(H, b)
+    print(b_, pos)
     return pos, pos + len(b_)
 
 #MAIN
 # prints correct scoring matrix from Wikipedia example
-print(build_score_matrix('GGTTGACTA', 'TGTTACGG'))
+#print(build_score_matrix('GGTTGACTA', 'TGTTACGG'))
 
-a, b = 'GGTTGACTA', 'TGTTACGG'
-H = build_score_matrix(a, b)
-print(traceback(H, b)) # ('gtt-ac', 1)
+a, b = 'GGTTTGACTA', 'TGTTACGG'
+#H = build_score_matrix(a, b)
+##print(traceback(H, b)) # ('gtt-ac', 1)
 
 start, end = smith_waterman(a, b)
-print(a[start:end])     # GTTGAC
+#print(start, end)
+#print(a[start:end])     # GTTGAC
