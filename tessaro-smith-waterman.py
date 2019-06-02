@@ -31,7 +31,7 @@ def printResult(align2, align1):
 
 def Similarity_Score(a, b):
     '''
-    check whether two character if there is a gap-mismatch-match
+    check whether two character there is a gap-mismatch-match
     '''
     if a == b:
         return scores['match']
